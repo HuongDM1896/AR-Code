@@ -79,6 +79,14 @@ SCREEN_RENDER = True / False
   
   While determining the offloading server of each user is a discrete variable problem, allocating computing resources and migration bandwidth are continuous variable problems. Thus, Deep Deterministic Policy Gradient (DDPG), a model-free off-policy actor-critic algorithm, can solve both discrete and continuous problems. Also, DDPG updates model weights every step, which means the model can adapt to a dynamic environment instantly.
 
++ Sub Tasks dependencies model
+
+
+```python
+
+```
+
+
 + State
 
   ```python

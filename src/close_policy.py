@@ -9,11 +9,11 @@ from render import Demo
 #####################  hyper parameters  ####################
 folder = "./data/"
 LOCATION = "KAIST"
-USER_NUM = 10
-EDGE_NUM = 3
+USER_NUM = 30
+EDGE_NUM = 10
 LIMIT = 4
-LEARNING_MAX_EPISODE = 10
-MAX_EP_STEPS = 3000
+LEARNING_MAX_EPISODE = 1000
+MAX_EP_STEPS = 500
 TXT_NUM = 92
 TEXT_RENDER = True
 SCREEN_RENDER = False

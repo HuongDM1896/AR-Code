@@ -8,10 +8,10 @@ from render import Demo
 #####################  hyper parameters  ####################
 folder = "./data/"
 LOCATION = "KAIST"
-USER_NUM = 10
-EDGE_NUM = 3
+USER_NUM = 30
+EDGE_NUM = 10
 LIMIT = 4
-MAX_EP_STEPS = 3000
+MAX_EP_STEPS = 500
 TXT_NUM = 92
 r_bound = 1e9 * 0.063
 b_bound = 1e9
@@ -290,7 +290,7 @@ class EdgeServer():
                         # start migration
                         U[user_id].req.mig_size = U[user_id].req.tasktype.migration_size
                         U[user_id].req.mig_size -= B[user_id]
-                        #print("user", U[user_id].req.user_id, ":migration step 1")
+                        #print("user - task", U[user_id].req.user_id, "1", ":migration step 1")
                     # first try to migration(step 1)
                     elif U[user_id].req.state != 6:
                         table[ini_edge][target_edge] -= B[user_id]
@@ -301,14 +301,14 @@ class EdgeServer():
                         U[user_id].req.pre_state = U[user_id].req.state
                         # on the way to migration, disconnect to the old edge
                         U[user_id].req.state = 6
-                        #print("user", U[user_id].req.user_id, ":migration step 1")
+                        #print("user - task", U[user_id].req.user_id, "2", ":migration step 1")
                     elif U[user_id].req.state == 6 and target_edge == U[user_id].req.last_offlaoding:
                         # keep migration(step 2)
                         if U[user_id].req.mig_size > 0:
                             # reduce the bandwidth
                             table[ini_edge][target_edge] -= B[user_id]
                             U[user_id].req.mig_size -= B[user_id]
-                            #print("user", U[user_id].req.user_id, ":migration step 2")
+                            #print("user - task", U[user_id].req.user_id, "3", ":migration step 2")
                         # end the migration(step 3)
                         else:
                             # the number of the connection user
@@ -316,7 +316,7 @@ class EdgeServer():
                             for target_user_id in E[target_edge].user_group:
                                 if U[target_user_id].req.state != 6:
                                     target_connection_num += 1
-                            #print("user", U[user_id].req.user_id, ":migration step 3")
+                            #print("user - task", U[user_id].req.user_id, "4", ":migration step 3")
                             # change to another edge
                             if E[target_edge].capability - U[user_id].req.resource >= 0 and target_connection_num + 1 <= E[target_edge].limit:
                                 # register in the new edge
@@ -329,7 +329,7 @@ class EdgeServer():
                                 U[user_id].req.edge_loc = E[target_edge].loc
                                 # release the pre-state, continue to transmission process
                                 U[user_id].req.state = U[user_id].req.pre_state
-                                #print("user", U[user_id].req.user_id, ":migration finish")
+                                #print("user - task", U[user_id].req.user_id, "5", ":migration finish")
             #store pre_offloading
             U[user_id].req.last_offlaoding = int(O[user_id])
 
@@ -479,10 +479,10 @@ class Env():
         for i in range(self.edge_num):
             new_e = EdgeServer(i, e_l[i, :])
             self.E.append(new_e)
-            """
+            
             print("edge", new_e.edge_id, "'s loc:\n", new_e.loc)
         print("========================================================")
-        """
+        
         # model
         self.model = priority_policy()
 
@@ -507,9 +507,10 @@ class Env():
         self.B = a[r_dim:r_dim + b_dim]
         # offloading update
         base = r_dim + b_dim
+        task_id = random.seed(7)
         for user_id in range(self.user_num):
             prob_weights = a[base:base + self.edge_num]
-            #print("user", user_id, ":", prob_weights)
+            #print("user - task", user_id, task_id,":", prob_weights)
             action = np.random.choice(range(len(prob_weights)), p=prob_weights.ravel())  # select action w.r.t the actions prob
             base += self.edge_num
             self.O[user_id] = action
@@ -552,12 +553,12 @@ class Env():
     def text_render(self):
         print("R:", self.R)
         print("B:", self.B)
-        """
+        
         base = USER_NUM +USER_NUM
         for user in range(len(self.U)):
-            print("user", user, " offload probabilty:", a[base:base + self.edge_num])
+            #print("user", user, " offload probabilty:", a[base:base + self.edge_num])
             base += self.edge_num
-        """
+        
         print("O:", self.O)
         for user in self.U:
             print("user", user.user_id, "'s loc:\n", user.loc)

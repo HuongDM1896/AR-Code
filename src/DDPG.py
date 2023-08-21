@@ -4,11 +4,11 @@ import numpy as np
 import time
 
 #####################  hyper parameters  ####################
-LR_A = 0.0001    # learning rate for actor
-LR_C = 0.0002    # learning rate for critic
+LR_A = 0.001   # learning rate for actor
+LR_C = 0.0001   # learning rate for critic
 GAMMA = 0.9     # reward discount
 TAU = 0.01      # soft replacement
-BATCH_SIZE = 32
+BATCH_SIZE = 256
 OUTPUT_GRAPH = True
 
 ###############################  DDPG  ####################################
@@ -79,7 +79,7 @@ class DDPG(object):
         self.sess.run(self.atrain, {self.S: bs})
         self.sess.run(self.ctrain, {self.S: bs, self.a: ba, self.R: br, self.S_: bs_})
 
-    def store_transition(self, s, a, r, s_):
+    def store_transition(self, s, a, r, s_): #save the transissiton 
         transition = np.hstack((s, a, [r], s_))
         index = self.pointer % self.memory_capacity  # replace the old memory with new memory
         self.memory[index, :] = transition
@@ -104,7 +104,7 @@ class DDPG(object):
             layer_b3 = tf.layers.dense(layer_b2, n_l, activation=tf.nn.relu, name='b_3', trainable=trainable)
             layer_b4 = tf.layers.dense(layer_b3, self.b_dim, activation=tf.nn.relu, name='b_4', trainable=trainable)
 
-            # offloading (probability: 0 - 1)
+            # offloading (probability: 0 - 1. 
             # layer
             layer = [["layer"+str(user_id)+str(layer) for layer in range(4)] for user_id in range(self.r_dim)]
             # name

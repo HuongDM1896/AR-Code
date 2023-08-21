@@ -8,11 +8,11 @@ from render import Demo
 #####################  hyper parameters  ####################
 folder = "./data/"
 LOCATION = "KAIST"
-USER_NUM = 10
-EDGE_NUM = 3
+USER_NUM = 30
+EDGE_NUM = 10
 LIMIT = 4
-LEARNING_MAX_EPISODE = 20
-MAX_EP_STEPS = 3000
+LEARNING_MAX_EPISODE = 2000
+MAX_EP_STEPS = 500
 TXT_NUM = 92
 TEXT_RENDER = False
 SCREEN_RENDER = True
@@ -329,7 +329,7 @@ class EdgeServer():
                                 U[user_id].req.edge_loc = E[target_edge].loc
                                 # release the pre-state, continue to transmission process
                                 U[user_id].req.state = U[user_id].req.pre_state
-                                #print("user", U[user_id].req.user_id, ":migration finish")
+                                #("user", U[user_id].req.user_id, ":migration finish")
             #store pre_offloading
             U[user_id].req.last_offlaoding = int(O[user_id])
 

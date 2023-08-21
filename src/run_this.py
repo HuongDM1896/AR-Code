@@ -7,8 +7,8 @@ import time
 
 #####################  hyper parameters  ####################
 CHECK_EPISODE = 4
-LEARNING_MAX_EPISODE = 10
-MAX_EP_STEPS = 3000
+LEARNING_MAX_EPISODE = 1000
+MAX_EP_STEPS = 500
 TEXT_RENDER = True
 SCREEN_RENDER = False
 CHANGE = False

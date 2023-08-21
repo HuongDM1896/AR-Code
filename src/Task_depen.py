@@ -66,33 +66,33 @@ tasks = TasksGroup()
 
 @tasks.add()
 def f1():
-    time.sleep(.4)
-    print(time.time(), 1)
+    time.sleep(1)
+    print(time.time(), 'Capture')
 
 @tasks.add(f1)
 def f2():
-    time.sleep(.4)
-    print(time.time(), 2)
+    time.sleep(1)
+    print(time.time(), 'Tracking')
 
 @tasks.add(f1)
 def f3():
-    time.sleep(.4)
-    print(time.time(), 3)
+    time.sleep(1)
+    print(time.time(), 'Get AR')
 
 @tasks.add(f3)
 def f4():
-    time.sleep(.4)
-    print(time.time(), 4)
+    time.sleep(1)
+    print(time.time(), 'AR Processing')
 
 @tasks.add()
 def f5():
-    time.sleep(.4)
-    print(time.time(), 5)
+    time.sleep(1)
+    print(time.time(), 'Render')
 
 @tasks.add()
 def f6():
-    time.sleep(.4)
-    print(time.time(), 6)
+    time.sleep(1)
+    print(time.time(), 'Display')
 
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
